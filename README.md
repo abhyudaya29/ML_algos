@@ -1,1 +1,1 @@
-Here is the implementation of Machin learning and deep learning  algorithms
+Here is the implementation of Machine learning and deep learning  algorithms
