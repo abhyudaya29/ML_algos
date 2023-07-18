@@ -1,0 +1,214 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "gpuType": "T4",
+      "authorship_tag": "ABX9TyMi60Kk4nHFP9SGoCsV9ILt",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    },
+    "accelerator": "GPU"
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/abhyudaya29/ML_algos/blob/main/Padding%20and%20strides(CNN)\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 2,
+      "metadata": {
+        "id": "eldtfK6sC8VS"
+      },
+      "outputs": [],
+      "source": [
+        "import tensorflow\n",
+        "from tensorflow import keras\n",
+        "from keras.layers import Dense,Conv2D,Flatten\n",
+        "from keras import Sequential\n",
+        "from keras.datasets import mnist"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "(X_train,y_train),(X_test,y_test)=mnist.load_data()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Cd1aPMBXDSti",
+        "outputId": "8a56a89d-1e63-4573-a5eb-0f10961f5770"
+      },
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz\n",
+            "11490434/11490434 [==============================] - 0s 0us/step\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "model=Sequential()"
+      ],
+      "metadata": {
+        "id": "jZXMylC3Do0H"
+      },
+      "execution_count": 4,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "model.add(Conv2D(32,kernel_size=(3,3),padding='valid',activation='relu',input_shape=(28,28,1)))\n",
+        "model.add(Conv2D(32,kernel_size=(3,3),padding='valid',activation='relu'))\n",
+        "model.add(Conv2D(32,kernel_size=(3,3),padding='valid',activation='relu'))\n",
+        "\n",
+        "model.add(Flatten())\n",
+        "model.add(Dense(128,activation='relu'))\n",
+        "model.add(Dense(10,activation='softmax'))"
+      ],
+      "metadata": {
+        "id": "op8PszK7Dsiv"
+      },
+      "execution_count": 6,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "model.summary()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "oYsarU0JEiEn",
+        "outputId": "bdc26d19-6c6d-4142-c0a3-595130258337"
+      },
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Model: \"sequential\"\n",
+            "_________________________________________________________________\n",
+            " Layer (type)                Output Shape              Param #   \n",
+            "=================================================================\n",
+            " conv2d (Conv2D)             (None, 26, 26, 32)        320       \n",
+            "                                                                 \n",
+            " conv2d_1 (Conv2D)           (None, 24, 24, 32)        9248      \n",
+            "                                                                 \n",
+            " conv2d_2 (Conv2D)           (None, 22, 22, 32)        9248      \n",
+            "                                                                 \n",
+            " conv2d_3 (Conv2D)           (None, 20, 20, 32)        9248      \n",
+            "                                                                 \n",
+            " flatten (Flatten)           (None, 12800)             0         \n",
+            "                                                                 \n",
+            " dense (Dense)               (None, 128)               1638528   \n",
+            "                                                                 \n",
+            " dense_1 (Dense)             (None, 10)                1290      \n",
+            "                                                                 \n",
+            "=================================================================\n",
+            "Total params: 1,667,882\n",
+            "Trainable params: 1,667,882\n",
+            "Non-trainable params: 0\n",
+            "_________________________________________________________________\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "model=Sequential()\n",
+        "model.add(Conv2D(32,kernel_size=(3,3),padding='same',strides=(2,2),activation='relu',input_shape=(28,28,1)))\n",
+        "model.add(Conv2D(32,kernel_size=(3,3),padding='same',strides=(2,2),activation='relu'))\n",
+        "model.add(Conv2D(32,kernel_size=(3,3),padding='same',strides=(2,2),activation='relu'))\n",
+        "\n",
+        "model.add(Flatten())\n",
+        "model.add(Dense(128,activation='relu'))\n",
+        "model.add(Dense(10,activation='softmax'))"
+      ],
+      "metadata": {
+        "id": "uVzRc8KPEteG"
+      },
+      "execution_count": 12,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "model.summary()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "VLR8E9KDE-gl",
+        "outputId": "258bc755-d829-457c-eb7f-ecc743d49384"
+      },
+      "execution_count": 13,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Model: \"sequential_2\"\n",
+            "_________________________________________________________________\n",
+            " Layer (type)                Output Shape              Param #   \n",
+            "=================================================================\n",
+            " conv2d_8 (Conv2D)           (None, 14, 14, 32)        320       \n",
+            "                                                                 \n",
+            " conv2d_9 (Conv2D)           (None, 7, 7, 32)          9248      \n",
+            "                                                                 \n",
+            " conv2d_10 (Conv2D)          (None, 4, 4, 32)          9248      \n",
+            "                                                                 \n",
+            " flatten_2 (Flatten)         (None, 512)               0         \n",
+            "                                                                 \n",
+            " dense_4 (Dense)             (None, 128)               65664     \n",
+            "                                                                 \n",
+            " dense_5 (Dense)             (None, 10)                1290      \n",
+            "                                                                 \n",
+            "=================================================================\n",
+            "Total params: 85,770\n",
+            "Trainable params: 85,770\n",
+            "Non-trainable params: 0\n",
+            "_________________________________________________________________\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "xKM7GA4iFLzm"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
